@@ -43,7 +43,7 @@ const LifeSettings = (props: any) => {
         </Label>
         <div className="w-full relative mb-3">
           <select
-            className="border-0 rounded-sm w-full bg-transparent"
+            className="border-0 rounded-sm w-full bg-transparent focus:ring-sky-300/50"
             onChange={handlePresetSelected}
           >
             {presets.map((preset) => (
@@ -73,7 +73,7 @@ const LifeSettings = (props: any) => {
           type="number"
           onChange={handleSizeChange}
           value={settings.size}
-          className="bg-gradient-to-br from-slate-900 to-[#1a2234] rounded-sm border-0 mt-3"
+          className="bg-gradient-to-br from-slate-900 to-[#1a2234] rounded-sm border-0 mt-3 focus:ring-sky-300/50"
         />
       </div>
     </Card>
