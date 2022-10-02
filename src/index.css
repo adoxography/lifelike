@@ -1,0 +1,157 @@
+@import url('https://fonts.googleapis.com/css2?family=Coda:wght@400;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: Coda, arial, sans-serif;
+  }
+}
+
+:root {
+  --size: 4px;
+}
+
+@for $i from 0 to 15 {
+  .square-$i {
+    @apply text-slate-300 bg-slate-700 before:absolute after:absolute;
+
+    &::before,
+    &::after {
+      z-index: 10;
+      border-top: var(--size) solid transparent;
+      border-right: var(--size) solid transparent;
+      border-bottom: var(--size) solid transparent;
+      border-left: var(--size) solid transparent;
+    }
+  }
+}
+
+.square-3,
+.square-5,
+.square-6,
+.square-7,
+.square-10,
+.square-11,
+.square-13,
+.square-14,
+.square-15 {
+  @apply text-slate-700 bg-slate-300;
+}
+
+.square-1,
+.square-10,
+.square-14 {
+  &::before {
+    bottom: 0;
+    left: 0;
+    border-bottom: var(--size) solid currentcolor;
+    border-left: var(--size) solid currentcolor;
+  }
+}
+
+.square-2,
+.square-5,
+.square-13 {
+  &::after {
+    bottom: 0;
+    right: 0;
+    border-right: var(--size) solid currentcolor;
+    border-bottom: var(--size) solid currentcolor;
+  }
+}
+
+.square-4,
+.square-10,
+.square-11 {
+  &::after {
+    top: 0;
+    right: 0;
+    border-top: var(--size) solid currentcolor;
+    border-right: var(--size) solid currentcolor;
+  }
+}
+
+.square-5,
+.square-7,
+.square-8 {
+  &::before {
+    top: 0;
+    left: 0;
+    border-top: var(--size) solid currentcolor;
+    border-left: var(--size) solid currentcolor;
+  }
+}
+
+.square-3,
+.square-12 {
+  &::before {
+    width: 100%;
+    height: 50%;
+    background-color: currentcolor;
+  }
+}
+
+.square-6,
+.square-9 {
+  &::before {
+    width: 50%;
+    height: 100%;
+    background-color: currentcolor;
+  }
+}
+
+input[type=checkbox] {
+  @apply opacity-0 w-0 h-0 absolute;
+
+  & + label {
+    @apply w-full h-full bg-slate-600 inline-block relative cursor-pointer hover:bg-slate-500 overflow-hidden transition-all;
+
+    &::after {
+      @apply transition-all;
+
+      content: "";
+    }
+
+    & > div {
+      @apply absolute;
+
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  &:checked + label {
+    @apply bg-slate-700 hover:bg-slate-600 text-sky-300;
+
+    & > div {
+      margin-top: 1px;
+      margin-left: 1px;
+      text-shadow: 0 0 8px #7dd3fc80;
+    }
+  }
+
+  &.button-inset-top:checked + label {
+    box-shadow: inset 0 6px 3px -3px #0004;
+  }
+
+  &.button-inset-left:checked + label {
+    box-shadow: inset 6px 0 3px -3px #0004;
+  }
+
+  &.button-inset-left.button-inset-top:checked + label {
+    box-shadow: inset 6px 6px 3px -3px #0004;
+  }
+
+  &.button-inset-corner:checked + label::after {
+    width: 6px;
+    height: 6px;
+    position: absolute;
+    bottom: 100%;
+    right: 100%;
+    box-shadow: 3px 3px 3px #0004;
+  }
+}
