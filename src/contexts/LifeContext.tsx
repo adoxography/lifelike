@@ -9,7 +9,7 @@ const initialState = {
   start: () => {},
   stop: () => {},
   randomize: () => {},
-  getValue: (_x: number, _y: number) => {},
+  getValue: (_x: number, _y: number) => 0,
   reset: () => {}
 };
 
