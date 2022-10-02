@@ -1,5 +1,4 @@
 import { Fragment, useEffect, useState, useRef } from 'react';
-import Label from './Label';
 
 const ToggleGrid = ({ className = '', values, labels, onChange, ...props }) => {
   const currentValues = useRef();

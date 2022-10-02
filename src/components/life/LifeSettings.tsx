@@ -1,11 +1,12 @@
+import type { ChangeEvent } from 'react';
 import { useEffect, useState } from 'react';
 import { useLifeSettings } from '../../hooks';
 import presets from '../../presets';
 import { Card, ToggleGrid, Label, DelayedInput } from '..';
 
-const LifeSettings = (props) => {
+const LifeSettings = (props: any) => {
   const { settings, updateSettings } = useLifeSettings();
-  const [toggleValues, setToggleValues] = useState();
+  const [toggleValues, setToggleValues] = useState<Set<number>[]>();
 
   useEffect(() => {
     setToggleValues([
@@ -14,17 +15,17 @@ const LifeSettings = (props) => {
     ])
   }, [settings.birth, settings.survival]);
 
-  const handlePresetSelected = (e) => {
+  const handlePresetSelected = (e: ChangeEvent<HTMLSelectElement>) => {
     const preset = presets.find(preset => preset.label === e.target.value);
 
     updateSettings(preset.settings);
   };
 
-  const handleSizeChange = (size) => {
+  const handleSizeChange = (size: number) => {
     updateSettings({ size });
   };
 
-  const handleToggleChange = (values) => {
+  const handleToggleChange = (values: Set<number>[]) => {
     updateSettings({
       birth: values[0],
       survival: values[1]

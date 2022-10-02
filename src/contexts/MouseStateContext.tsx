@@ -16,9 +16,9 @@ export const MouseStateProvider = ({ children }) => {
   useEffect(() => {
     const handleMouseDown = () => setIsMouseDown(true);
     const handleMouseUp = () => setIsMouseDown(false);
-    const handleMouseMove = (event) => {
-      setMouseX(`${event.pageX}px`);
-      setMouseY(`${event.pageY}px`);
+    const handleMouseMove = (event: MouseEvent) => {
+      setMouseX(event.pageX);
+      setMouseY(event.pageY);
     };
 
     document.addEventListener('mousedown', handleMouseDown);

@@ -1,4 +1,4 @@
-const getNeighbourIndices = (x, y) => ([
+const getNeighbourIndices = (x: number, y: number) => ([
   [x - 1, y - 1],
   [x    , y - 1],
   [x + 1, y - 1],
@@ -10,14 +10,17 @@ const getNeighbourIndices = (x, y) => ([
 ]);
 
 class State {
-  constructor(size, values) {
+  size: number;
+  values: Array<number>;
+
+  constructor(size: number, values?: Array<number>) {
     this.size = size;
     this.values = values !== undefined
       ? values
       : Array(size * size).fill(0);
   }
 
-  static randomize(size) {
+  static randomize(size: number) {
     const values = Array(size * size)
       .fill(0)
       .map(() => Math.random() > 0.5 ? 1 : 0);
@@ -29,15 +32,15 @@ class State {
     return new State(this.size, [...this.values]);
   }
 
-  get(x, y) {
+  get(x: number, y: number) {
     return this.values[this.size * y + x];
   }
 
-  set(x, y, value) {
+  set(x: number, y: number, value: number) {
     this.values[this.size * y + x] = value;
   }
 
-  countNeighbours(x, y) {
+  countNeighbours(x: number, y: number) {
     let count = 0;
 
     getNeighbourIndices(x, y).forEach(([nx, ny]) => {
@@ -78,7 +81,7 @@ class State {
     return new State(this.size, newValues);
   }
 
-  resize(newSize) {
+  resize(newSize: number) {
     if (this.size === newSize) {
       return this.clone();
     }
@@ -90,7 +93,7 @@ class State {
     return this.shrink(newSize);
   }
 
-  grow(newSize) {
+  grow(newSize: number) {
     const diff = newSize - this.size;
     const left = Math.floor(diff / 2);
     const right = Math.ceil(diff / 2);
@@ -107,7 +110,7 @@ class State {
     return new State(newSize, newValues);
   }
 
-  shrink(newSize) {
+  shrink(newSize: number) {
     const diff = this.size - newSize;
     const start = Math.floor(diff / 2);
     const newValues = [];
@@ -124,7 +127,7 @@ class State {
     return new State(newSize, newValues);
   }
 
-  toggleCell(x, y) {
+  toggleCell(x: number, y: number) {
     const newState = this.clone();
 
     newState.set(x, y, this.get(x, y) ? 0 : 1);

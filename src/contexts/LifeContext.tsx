@@ -5,12 +5,11 @@ import State from '../State';
 const initialState = {
   isSimulating: false,
   state: null,
-  toggleCell: (_x, _y) => {},
+  toggleCell: (_x: number, _y: number) => {},
   start: () => {},
   stop: () => {},
   randomize: () => {},
-  clear: () => {},
-  getValue: (_x, _y) => {},
+  getValue: (_x: number, _y: number) => {},
   reset: () => {}
 };
 
@@ -18,7 +17,7 @@ export const LifeContext = createContext(initialState);
 
 export const LifeProvider = ({ children }) => {
   const { settings } = useLifeSettings();
-  const [state, setState] = useState();
+  const [state, setState] = useState<State>();
   const [isSimulating, setIsSimulating] = useState(false);
 
   useEffect(() => {
@@ -42,10 +41,10 @@ export const LifeProvider = ({ children }) => {
   const start = () => setIsSimulating(true);
   const stop = () => setIsSimulating(false);
   const randomize = () => setState(State.randomize(settings.size));
-  const getValue = (x, y) => state?.get(x, y);
+  const getValue = (x: number, y: number) => state?.get(x, y);
   const reset = () => setState(new State(settings.size));
 
-  const toggleCell = (x, y) => {
+  const toggleCell = (x: number, y: number) => {
     setState(prevState => prevState.toggleCell(x, y));
   };
 

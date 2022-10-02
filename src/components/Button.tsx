@@ -1,4 +1,4 @@
-const getColorClasses = variant => {
+const getColorClasses = (variant: string) => {
   switch (variant) {
     case 'success':
       return 'bg-emerald-400 hover:bg-emerald-300 text-slate-900';

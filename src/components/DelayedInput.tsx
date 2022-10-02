@@ -1,3 +1,4 @@
+import { ChangeEvent, FocusEvent, KeyboardEvent } from 'react';
 import { useState, useEffect } from 'react';
 
 const DelayedInput = ({ onChange, type, value, ...props }) => {
@@ -7,25 +8,25 @@ const DelayedInput = ({ onChange, type, value, ...props }) => {
     setInternalValue(value);
   }, [value]);
 
-  const handleInternalChange = e => {
+  const handleInternalChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInternalValue(e.target.value);
   };
 
-  const handleKeyDown = e => {
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       handleChange(e);
     }
   };
 
-  const handleChange = e => {
-    const { value } = e.target;
+  const handleChange = (e: FocusEvent<HTMLInputElement> | KeyboardEvent<HTMLInputElement>) => {
+    const { value } = e.target as HTMLInputElement;
 
     if (type === 'number') {
       onChange(parseInt(value || '0'));
     } else {
       onChange(value);
     }
-  }
+  };
 
   return (
     <input

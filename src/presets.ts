@@ -1,4 +1,6 @@
-const presets = [
+import { Preset } from './types';
+
+const presets: Array<Preset> = [
   {
     label: 'Classic',
     settings: {

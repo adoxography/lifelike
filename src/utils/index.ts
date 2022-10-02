@@ -1,4 +1,4 @@
-export const createRange = (start, end) => {
+export const createRange = (start: number, end?: number): number[] => {
   if (end === undefined) {
     return createRange(0, start);
   }

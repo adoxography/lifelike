@@ -1,6 +1,6 @@
 import { useLife, useLifeSettings, useMouseState } from '../../hooks';
 
-const useMarchedIdx = (x, y) => {
+const useMarchedIdx = (x: number, y: number) => {
   const { getValue } = useLife();
 
   let s = 0;
