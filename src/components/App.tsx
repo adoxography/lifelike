@@ -11,12 +11,13 @@ const App = () => {
     <div className="min-h-screen grid grid-rows-[max-content_1fr_max-content]">
       <header className="py-10 flex justify-center">
         <h1 className="
-          relative font-extrabold text-6xl uppercase text-center tracking-wide
+          relative font-extrabold text-6xl uppercase text-center tracking-wider
           bg-gradient-to-br from-slate-100 to-slate-300 bg-clip-text text-transparent
         ">
-          Life
+          Lifelike
         </h1>
       </header>
+
       <main>
         <MouseStateProvider>
           <TooltipProvider>
