@@ -1,4 +1,4 @@
-import { useState, useEffect, createContext } from 'react';
+import { useCallback, useState, useEffect, createContext } from 'react';
 import useLifeSettings from '@/hooks/useLifeSettings';
 import State from '@/State';
 
@@ -38,11 +38,20 @@ export const LifeProvider = ({ children }) => {
     }
   }, [isSimulating, settings]);
 
-  const start = () => setIsSimulating(true);
-  const stop = () => setIsSimulating(false);
-  const randomize = () => setState(State.randomize(settings.size));
-  const getValue = (x: number, y: number) => state?.get(x, y);
-  const reset = () => setState(new State(settings.size));
+  const start = useCallback(() => setIsSimulating(true), []);
+  const stop = useCallback(() => setIsSimulating(false), []);
+  const randomize = useCallback(
+    () => setState(State.randomize(settings.size)),
+    [settings.size]
+  );
+  const getValue = useCallback(
+    (x: number, y: number) => state?.get(x, y),
+    [state]
+  );
+  const reset = useCallback(
+    () => setState(new State(settings.size)),
+    [settings.size]
+  );
 
   const toggleCell = (x: number, y: number) => {
     setState(prevState => prevState.toggleCell(x, y));
