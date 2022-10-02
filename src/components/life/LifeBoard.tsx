@@ -1,16 +1,13 @@
-import type { CSSProperties } from 'react';
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { useLifeSettings } from '../../hooks';
+import { useEffect, useRef, useState } from 'react';
+import { useLifeSettings } from '@/hooks';
 import { Card } from '..';
-import MarchedSquare from './MarchedSquare';
-import { createRange } from '../../utils';
+import LifeCanvas from './LifeCanvas';
+import SelectOverlay from './SelectOverlay';
 
 const LifeBoard = ({ className = '', ...props }) => {
   const { settings: { size } } = useLifeSettings();
   const [width, setWidth] = useState(0);
   const ref = useRef<HTMLDivElement>();
-
-  const range = useMemo<number[]>(() => createRange(size), [size]);
 
   useEffect(() => {
     const handleResize = () => setWidth(ref.current?.scrollWidth);
@@ -23,26 +20,17 @@ const LifeBoard = ({ className = '', ...props }) => {
   const style = {
     '--size': `${width / (size - 1) / 4 }px`,
     gridTemplateColumns: `repeat(${size}, max-content)`
-  } as CSSProperties;
+  };
 
   return (
     <Card className={`select-none ${className}`} {...props}>
       <div
-        className="md:w-[248px] lg:w-[496px] aspect-square shadow-inner"
+        className="md:w-[248px] lg:w-[496px] aspect-square shadow-inner relative"
         style={style}
         ref={ref}
       >
-        {range.map(y => (
-          <div key={y} className="flex">
-            {range.map(x => (
-              <MarchedSquare
-                key={x}
-                x={x}
-                y={y}
-              />
-            ))}
-          </div>
-        ))}
+        <SelectOverlay className="absolute top-0 left-0 w-full h-full z-10" />
+        <LifeCanvas />
       </div>
     </Card>
   );
