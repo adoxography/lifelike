@@ -1,5 +1,5 @@
 import { createContext, useReducer } from 'react';
-import type { LifeConfiguration } from '../types';
+import type { LifeConfiguration } from '@/types';
 
 enum ActionKind {
   Update = 'UPDATE'

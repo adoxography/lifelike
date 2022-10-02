@@ -1,4 +1,4 @@
-import { useLife } from '../../hooks';
+import { useLife } from '@/hooks';
 import { Button, Card } from '..';
 
 const LifeActions = ({ className = '', ...props }) => {

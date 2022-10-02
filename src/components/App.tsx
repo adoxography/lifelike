@@ -3,7 +3,7 @@ import {
   LifeSettingsProvider,
   MouseStateProvider,
   TooltipProvider
-} from '../contexts';
+} from '@/contexts';
 import { LifeActions, LifeBoard, LifeSettings } from './life';
 
 const App = () => {

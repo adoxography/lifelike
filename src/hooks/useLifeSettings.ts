@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { LifeSettingsContext } from '../contexts';
+import { LifeSettingsContext } from '@/contexts';
 
 const useLifeSettings = () => useContext(LifeSettingsContext);
 

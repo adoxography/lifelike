@@ -1,4 +1,4 @@
-import { useMouseState } from '../hooks';
+import { useMouseState } from '@/hooks';
 
 const Tooltip = ({ message, open }) => {
   const { mouseX, mouseY } = useMouseState();

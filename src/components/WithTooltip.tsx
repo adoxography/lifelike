@@ -1,4 +1,4 @@
-import { useTooltip } from '../hooks';
+import { useTooltip } from '@/hooks';
 
 const WithTooltip = ({ children, tooltip, ...props }) => {
   const { show, hide } = useTooltip();

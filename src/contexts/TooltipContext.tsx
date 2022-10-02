@@ -1,5 +1,5 @@
 import { createContext, useState } from 'react';
-import { Tooltip } from '../components';
+import { Tooltip } from '@/components';
 
 type TooltipState = {
   show: (_?: string) => void;

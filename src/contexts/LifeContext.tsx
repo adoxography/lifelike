@@ -1,6 +1,6 @@
 import { useState, useEffect, createContext } from 'react';
-import useLifeSettings from '../hooks/useLifeSettings';
-import State from '../State';
+import useLifeSettings from '@/hooks/useLifeSettings';
+import State from '@/State';
 
 const initialState = {
   isSimulating: false,

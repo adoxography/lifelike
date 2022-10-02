@@ -6,6 +6,11 @@
     "importHelpers": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "allowSyntheticDefaultImports": true,
+    "paths": {
+      "@/*": ["./src/*"],
+      "tailwind.config.cjs": ["./tailwind.config.cjs"]
+    }
   }
 }

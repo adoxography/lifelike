@@ -1,7 +1,7 @@
 import type { ChangeEvent } from 'react';
 import { useEffect, useState } from 'react';
-import { useLifeSettings } from '../../hooks';
-import presets from '../../presets';
+import { useLifeSettings } from '@/hooks';
+import presets from '@/presets';
 import { Card, ToggleGrid, Label, DelayedInput } from '..';
 
 const LifeSettings = (props: any) => {

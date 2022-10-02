@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { MouseStateContext } from '../contexts';
+import { MouseStateContext } from '@/contexts';
 
 const useMouseState = () => useContext(MouseStateContext);
 
