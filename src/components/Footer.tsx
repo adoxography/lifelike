@@ -2,7 +2,7 @@ import GithubIcon from '@/assets/github-icon.png';
 
 const Footer = () => {
   return (
-    <footer className="text-slate-400 text-sm py-2 px-6 flex justify-end">
+    <footer className="text-slate-400 text-sm mt-4 py-2 px-6 flex justify-end">
       <div className="flex gap-2 items-center">
         <p>
           Coded with ❤️ by <a
