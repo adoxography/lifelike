@@ -35,8 +35,8 @@ input[type=checkbox] {
     @apply bg-slate-700 hover:bg-slate-600 text-sky-300;
 
     & > div {
-      margin-top: 1px;
-      margin-left: 1px;
+      @apply mt-px ml-px;
+
       text-shadow: 0 0 8px #7dd3fc80;
     }
   }
@@ -58,11 +58,10 @@ input[type=checkbox] {
   }
 
   &.button-inset-corner:checked + label::after {
+    @apply absolute bottom-full right-full;
+
     width: 6px;
     height: 6px;
-    position: absolute;
-    bottom: 100%;
-    right: 100%;
     box-shadow: 3px 3px 3px #0004;
   }
 }
