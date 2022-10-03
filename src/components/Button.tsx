@@ -9,7 +9,7 @@ const getColorClasses = (variant: string) => {
   }
 };
 
-const Button = ({ children, className = '', variant, ...props }) => (
+const Button = ({ children, className = '', variant = 'default', ...props }) => (
   <button className={`
       relative py-2 px-6 transition-colors rounded-sm uppercase drop-shadow-sm shadow-highlight tracking-wide
       focus-visible:outline-none focus-visible:ring-1 ring-sky-300/50

@@ -1,12 +1,20 @@
+import type { FC, ReactNode } from 'react';
 import { Fragment, useEffect, useState, useRef } from 'react';
 
-const ToggleGrid = ({ className = '', values, labels, onChange, ...props }) => {
-  const currentValues = useRef();
+type ToggleGridProps = {
+  className: string;
+  values: Set<number>[];
+  labels: ReactNode[];
+  onChange: (_: Set<number>[]) => void;
+};
 
-  const [matrix, setMatrix] = useState(Array(2).fill(0).map(() =>
+const ToggleGrid: FC<ToggleGridProps> = ({ className = '', values, labels, onChange, ...props }) => {
+  const currentValues = useRef<Set<number>[]>();
+
+  const [matrix, setMatrix] = useState<boolean[][]>(Array(2).fill(0).map(() =>
     Array(9).fill(false)));
 
-  const handleClick = (rowIdx, colIdx) => {
+  const handleClick = (rowIdx: number, colIdx: number) => {
     setMatrix(prevMatrix =>
       prevMatrix.map((row, i) =>
         row.map((cell, j) => (rowIdx === i && colIdx === j ? !cell : cell))
