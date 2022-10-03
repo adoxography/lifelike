@@ -1,4 +1,4 @@
-import GithubIcon from '../../github-icon.png';
+import GithubIcon from '@/assets/github-icon.png';
 
 const Footer = () => {
   return (
