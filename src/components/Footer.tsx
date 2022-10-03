@@ -16,7 +16,7 @@ const Footer = () => {
         </p>
         <span>&bull;</span>
         <a
-          href="https://github.com/adoxography"
+          href="https://github.com/adoxography/lifelike"
           target="_blank"
           rel="noopener noreferrer"
           className="relative group"
