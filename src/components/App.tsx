@@ -5,6 +5,7 @@ import {
   TooltipProvider
 } from '@/contexts';
 import { LifeActions, LifeBoard, LifeSettings } from './life';
+import { Footer } from '.';
 
 const App = () => {
   return (
@@ -35,16 +36,7 @@ const App = () => {
           </TooltipProvider>
         </MouseStateProvider>
       </main>
-      <footer className="text-slate-400 text-sm py-2 px-4 text-right">
-        Coded with ❤️ by <a
-          href="https://gstill.dev"
-          className="text-sky-300 hover:text-sky-200 transition-colors"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Graham Still
-        </a>
-      </footer>
+      <Footer />
     </div>
   )
 };
