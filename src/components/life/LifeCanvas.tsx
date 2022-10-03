@@ -164,10 +164,17 @@ const LifeCanvas = () => {
     }
 
     // Clear canvas
-    context.fillStyle = tailwind.theme.colors.slate?.[700];
+    const colors = tailwind.theme.colors;
+    let bgColor = 'black';
+    let fgColor = 'white'
+    if (typeof colors === 'object') {
+      bgColor = colors.slate?.[700];
+      fgColor = colors.slate?.[300];
+    }
+    context.fillStyle = bgColor;
     context.fillRect(0, 0, canvas.current.width, canvas.current.height);
 
-    context.fillStyle = tailwind.theme.colors.slate?.[300];
+    context.fillStyle = fgColor;
     const cellSize = canvas.current.width / Math.max(size - 1, 1);
 
     for (let x = 0; x < size - 1; x++) {
