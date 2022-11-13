@@ -7,6 +7,7 @@ enum ActionKind {
 
 export type LifeSettings = LifeConfiguration & {
   size: number;
+  trail: number;
 };
 
 type LifeSettingsContextValues = {
@@ -21,6 +22,7 @@ type Action = {
 
 const initialState = {
   size: 32,
+  trail: 0.75,
   birth: new Set([3]),
   survival: new Set([2, 3])
 };

@@ -12,12 +12,18 @@ const getNeighbourIndices = (x: number, y: number) => ([
 class State {
   size: number;
   values: Array<number>;
+  isEmpty: boolean;
 
   constructor(size: number, values?: Array<number>) {
     this.size = size;
-    this.values = values !== undefined
-      ? values
-      : Array(size * size).fill(0);
+
+    if (values === undefined) {
+      this.values = Array(size * size).fill(0);
+      this.isEmpty = true;
+    } else {
+      this.values = values;
+      this.isEmpty = false;
+    }
   }
 
   static randomize(size: number) {

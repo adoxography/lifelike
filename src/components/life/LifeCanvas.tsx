@@ -1,4 +1,4 @@
-import { useCallback, useState, useRef, useEffect } from 'react';
+import { useCallback, useMemo, useState, useRef, useEffect } from 'react';
 import { useLife, useLifeSettings, useTailwind } from '@/hooks';
 
 const createPoint = (x: number, y: number): [number, number] => [
@@ -9,8 +9,8 @@ const createPoint = (x: number, y: number): [number, number] => [
 const LifeCanvas = () => {
   const canvas = useRef<HTMLCanvasElement>();
   const [context, setContext] = useState<CanvasRenderingContext2D>(null);
-  const { settings: { size } } = useLifeSettings();
-  const { getValue } = useLife();
+  const { settings: { size, trail } } = useLifeSettings();
+  const { state, isSimulating, getValue } = useLife();
   const tailwind = useTailwind();
 
   const getPath = (x: number, y: number, size: number, idx: number): [number, number][] => {
@@ -151,6 +151,34 @@ const LifeCanvas = () => {
     return s;
   }, [getValue]);
 
+  const bgColor = useMemo(() => {
+    const colors = tailwind.theme.colors;
+
+    let bgColor = '#000000';
+    let trailHex = 'ff';
+
+    if (isSimulating) {
+      trailHex = Math.floor(255 * (1 - trail)).toString(16).padStart(2, '0');
+    }
+
+    if (typeof colors === 'object') {
+      bgColor = `${colors.slate?.[700]}${trailHex}`;
+    }
+
+    return bgColor;
+  }, [tailwind, isSimulating, trail]);
+
+  const fgColor = useMemo(() => {
+    const colors = tailwind.theme.colors;
+    let fgColor = '#ffffff';
+
+    if (typeof colors === 'object') {
+      fgColor = colors.slate?.[300];
+    }
+
+    return fgColor;
+  }, [tailwind]);
+
   useEffect(() => {
     const context = canvas.current?.getContext('2d');
     context.translate(0.5, 0.5);
@@ -164,13 +192,6 @@ const LifeCanvas = () => {
     }
 
     // Clear canvas
-    const colors = tailwind.theme.colors;
-    let bgColor = 'black';
-    let fgColor = 'white'
-    if (typeof colors === 'object') {
-      bgColor = colors.slate?.[700];
-      fgColor = colors.slate?.[300];
-    }
     context.fillStyle = bgColor;
     context.fillRect(0, 0, canvas.current.width, canvas.current.height);
 

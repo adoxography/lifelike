@@ -32,6 +32,10 @@ const LifeSettings = (props: any) => {
     });
   };
 
+  const handleTrailChange = (e: ChangeEvent<HTMLInputElement>) => {
+    updateSettings({ trail: Math.max(0, Math.min(1, parseFloat(e.target.value))) });
+  };
+
   return (
     <Card {...props}>
       <div className="grid grid-cols-[max-content_1fr] gap-x-4 items-center">
@@ -74,6 +78,21 @@ const LifeSettings = (props: any) => {
           onChange={handleSizeChange}
           value={settings.size}
           className="bg-gradient-to-br from-slate-900 to-[#1a2234] rounded-sm border-0 mt-3 focus:ring-sky-300/50"
+        />
+        <Label
+          className="mt-3"
+          tooltip="The size of the trail following a cell"
+        >
+          Trail
+        </Label>
+        <input
+          type="range"
+          min="0"
+          max="1"
+          step="0.01"
+          value={settings.trail}
+          onChange={handleTrailChange}
+          className="accent-sky-300"
         />
       </div>
     </Card>
