@@ -9,7 +9,7 @@ import { Header, Footer } from '.';
 
 const App = () => {
   return (
-    <div className="min-h-screen grid grid-rows-[max-content_1fr_max-content]">
+    <div className="min-h-screen grid grid-rows-[max-content_1fr_max-content] bg-pattern-signal">
       <Header />
 
       <main>
