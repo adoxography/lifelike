@@ -1,7 +1,7 @@
 import type { ChangeEvent, FocusEvent, KeyboardEvent, InputHTMLAttributes } from 'react';
 import { useState, useEffect } from 'react';
 
-type DelayedInputProps = InputHTMLAttributes<HTMLInputElement> & {
+type DelayedInputProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'> & {
   type: string;
   value: string | number;
   onChange: (newValue: string | number) => void;

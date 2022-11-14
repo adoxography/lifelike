@@ -2,11 +2,11 @@ import type { HTMLAttributes, ReactNode } from 'react';
 import { Fragment, useEffect, useState, useRef } from 'react';
 import { createArray } from '@/utils';
 
-type ToggleGridProps = HTMLAttributes<HTMLDivElement> & {
+type ToggleGridProps = Omit<HTMLAttributes<HTMLDivElement>, 'onChange'> & {
   className: string;
   values: Set<number>[];
   labels: ReactNode[];
-  onChange: (_: Set<number>[]) => void;
+  onChange: (values: Set<number>[]) => void;
 };
 
 const ToggleGrid = ({ className = '', values, labels, onChange, ...props } : ToggleGridProps) => {
@@ -57,7 +57,7 @@ const ToggleGrid = ({ className = '', values, labels, onChange, ...props } : Tog
     if (!outputMatches) {
       onChange?.(output);
     }
-  }, [matrix]);
+  }, [matrix, onChange]);
 
   return (
     <div className={`contents ${className}`} {...props}>

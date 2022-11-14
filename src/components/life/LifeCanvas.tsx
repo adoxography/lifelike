@@ -217,7 +217,7 @@ const LifeCanvas = () => {
         }
       }
     }
-  }, [context, getMarchedIdx]);
+  }, [context, getMarchedIdx, bgColor, fgColor, size]);
 
   useEffect(update, [update]);
 

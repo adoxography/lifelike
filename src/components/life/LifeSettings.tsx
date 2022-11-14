@@ -1,6 +1,6 @@
 import type { ChangeEvent } from 'react';
 import type { CardProps } from '../Card';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useLifeSettings } from '@/hooks';
 import presets from '@/presets';
 import { Card, ToggleGrid, Label, DelayedInput, Slider } from '..';
@@ -26,12 +26,12 @@ const LifeSettings = (props: CardProps) => {
     updateSettings({ size });
   };
 
-  const handleToggleChange = (values: Set<number>[]) => {
+  const handleToggleChange = useCallback((values: Set<number>[]) => {
     updateSettings({
       birth: values[0],
       survival: values[1]
     });
-  };
+  }, [updateSettings]);
 
   const handleTrailChange = (value: number) => {
     updateSettings({ trail: Math.max(0, Math.min(1, value)) });

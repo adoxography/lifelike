@@ -5,7 +5,7 @@ import type {
   MouseEvent as ReactMouseEvent,
   HTMLAttributes
 } from 'react';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { emptyFunction } from '@/utils';
 
 type SliderProps = {
@@ -21,15 +21,11 @@ const Slider = ({ min = 0, max = 100, value, onChange, thumbProps = {} }: Slider
   const containerRef = useRef<HTMLDivElement>(null);
   const thumbRef = useRef<HTMLDivElement>(null);
 
-  const changeValue = (newValue: number) => {
+  const changeValue = useCallback((newValue: number) => {
     onChange(Math.max(min, Math.min(max, newValue)));
-  };
+  }, [min, max, onChange]);
 
-  const handleChange = (e: MouseEvent | ReactMouseEvent<HTMLDivElement> | DragEvent<HTMLDivElement>) => {
-    doChange(e.clientX);
-  };
-
-  const doChange = (clientX: number) => {
+  const doChange = useCallback((clientX: number) => {
     if (!containerRef.current || clientX === 0) {
       return;
     }
@@ -41,30 +37,34 @@ const Slider = ({ min = 0, max = 100, value, onChange, thumbProps = {} }: Slider
 
     thumbRef.current?.focus();
     changeValue(newValue);
-  };
+  }, [min, max, changeValue]);
   
-  const handleMouseDown = (e: ReactMouseEvent<HTMLDivElement> | ReactTouchEvent<HTMLDivElement>) => {
+  const handleChange = useCallback((e: MouseEvent | ReactMouseEvent<HTMLDivElement> | DragEvent<HTMLDivElement>) => {
+    doChange(e.clientX);
+  }, [doChange]);
+
+  const handleMouseDown = useCallback((e: ReactMouseEvent<HTMLDivElement> | ReactTouchEvent<HTMLDivElement>) => {
     if (e.type === 'mousedown') {
       e.preventDefault();
     }
 
     setIsMouseDown(true);
-  };
+  }, []);
 
   const handleMouseMove = useCallback((e: MouseEvent) => {
     if (isMouseDown) {
       handleChange(e);
     }
-  }, [isMouseDown]);
+  }, [isMouseDown, handleChange]);
 
   const handleTouchMove = useCallback((e: TouchEvent) => {
     if (isMouseDown) {
       const touch = e.touches.item(0);
       doChange(touch.clientX);
     }
-  }, [isMouseDown]);
+  }, [isMouseDown, doChange]);
 
-  const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+  const handleKeyDown = useCallback((e: KeyboardEvent<HTMLDivElement>) => {
     const increment = (max - min) * 0.05;
 
     if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') {
@@ -74,15 +74,11 @@ const Slider = ({ min = 0, max = 100, value, onChange, thumbProps = {} }: Slider
     if (e.key === 'ArrowRight' || e.key === 'ArrowUp') {
       changeValue(value + increment);
     }
-  };
+  }, [min, max, value, changeValue]);
 
-  const pos = useMemo<number>(() => {
-    if (!containerRef.current) {
-      return 0;
-    }
-
-    return (value - min) / max * containerRef.current.offsetWidth;
-  }, [value, min, max, containerRef.current]);
+  const pos = containerRef.current
+    ? (value - min) / max * containerRef.current.offsetWidth
+    : 0;
 
   useEffect(() => {
     const handleMouseUp = () => {
