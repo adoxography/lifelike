@@ -6,7 +6,11 @@ module.exports = {
   },
   'extends': [
     'eslint:recommended',
+    'plugin:import/recommended',
+    'plugin:import/typescript',
     'plugin:react/recommended',
+    'plugin:react/jsx-runtime',
+    'plugin:jsx-a11y/recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:@typescript-eslint/recommended-requiring-type-checking'
   ],
@@ -22,8 +26,18 @@ module.exports = {
   },
   'plugins': [
     'react',
+    'import',
+    'jsx-a11y',
     '@typescript-eslint'
   ],
+  'settings': {
+    'import/resolver': {
+      'typescript': {}
+    },
+    'react': {
+      'version': 'detect'
+    }
+  },
   'rules': {
     'indent': [
       'error',
@@ -46,7 +60,6 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': ['error', {
       'varsIgnorePattern': '^_',
       'argsIgnorePattern': '^_'
-    }],
-    'react/react-in-jsx-scope': 'off'
+    }]
   }
 };

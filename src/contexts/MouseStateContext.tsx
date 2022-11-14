@@ -1,5 +1,5 @@
+import type { PropsWithChildren } from 'react';
 import { createContext, useEffect, useState } from 'react';
-import { PropsWithChildren } from 'react';
 
 const initialState = {
   isMouseDown: false,

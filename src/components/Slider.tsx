@@ -6,6 +6,7 @@ import type {
   HTMLAttributes
 } from 'react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { emptyFunction } from '@/utils';
 
 type SliderProps = {
   min?: number;
@@ -107,8 +108,11 @@ const Slider = ({ min = 0, max = 100, value, onChange, thumbProps = {} }: Slider
       className="relative flex h-10 mt-3 items-center"
     >
       <div
+        role="button"
+        tabIndex={-1}
         className="flex items-center w-full h-4 cursor-pointer"
         onClick={handleChange}
+        onKeyDown={emptyFunction}
       >
         <div className="relative h-px bg-slate-900 w-full">
           <div

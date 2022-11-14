@@ -8,14 +8,16 @@ type WithTooltipProps = HTMLAttributes<HTMLDivElement> & {
 const WithTooltip = ({ children, tooltip, ...props } : PropsWithChildren<WithTooltipProps>) => {
   const { show, hide } = useTooltip();
 
-  const handleMouseOver = () => show(tooltip);
-  const handleMouseOut = () => hide(tooltip);
+  const handleShow = () => show(tooltip);
+  const handleHide = () => hide(tooltip);
 
   return (
     <div
       className="contents"
-      onMouseOver={handleMouseOver}
-      onMouseOut={handleMouseOut}
+      onMouseOver={handleShow}
+      onFocus={handleShow}
+      onMouseOut={handleHide}
+      onBlur={handleHide}
       {...props}
     >
       {children}

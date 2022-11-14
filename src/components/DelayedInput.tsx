@@ -1,4 +1,4 @@
-import { ChangeEvent, FocusEvent, KeyboardEvent, InputHTMLAttributes } from 'react';
+import type { ChangeEvent, FocusEvent, KeyboardEvent, InputHTMLAttributes } from 'react';
 import { useState, useEffect } from 'react';
 
 type DelayedInputProps = InputHTMLAttributes<HTMLInputElement> & {

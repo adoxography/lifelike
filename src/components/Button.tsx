@@ -58,7 +58,9 @@ const Button = ({ children, className = '', variant = 'default', ...props }: Pro
       ref={ref}
       onMouseMove={handleMouseMove}
       onMouseOver={() => setIsMouseOver(true)}
+      onFocus={() => setIsMouseOver(true)}
       onMouseOut={() => setIsMouseOver(false)}
+      onBlur={() => setIsMouseOver(false)}
       className={`
         relative py-2 px-6 transition-all duration-1000 rounded-sm uppercase drop-shadow-sm tracking-wide hover:shadow-[0_0_10px_var(--tw-shadow-color)]
         focus-visible:outline-none focus-visible:ring-1 ring-sky-300/50 bg-opacity-80 overflow-hidden bg-gradient-to-b

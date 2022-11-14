@@ -1,4 +1,4 @@
-import type { MouseEvent, TouchEvent } from 'react';
+import type { KeyboardEvent, MouseEvent, TouchEvent } from 'react';
 import { Fragment, useEffect, useRef, useState } from 'react';
 import { useLife, useLifeSettings } from '@/hooks';
 import { createRange } from '@/utils';
@@ -115,6 +115,18 @@ const SelectOverlay = ({ className = '' } : { className?: string }) => {
     });
   };
 
+  const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+    const { activeElement } = document;
+
+    if (e.key === 'Enter' && activeElement.tagName === 'BUTTON') {
+      const rect = activeElement.getBoundingClientRect();
+      const x = rect.left + rect.width / 2;
+      const y = rect.top + rect.height / 2;
+
+      handleStart(x, y);
+    }
+  };
+
   useEffect(() => {
     if (!recentlyPerformedTouch) {
       return;
@@ -138,6 +150,8 @@ const SelectOverlay = ({ className = '' } : { className?: string }) => {
 
   return (
     <div
+      role="grid"
+      tabIndex={0}
       className={`grid ${className}`}
       style={style}
       onTouchStart={handleTouchStart}
@@ -147,6 +161,7 @@ const SelectOverlay = ({ className = '' } : { className?: string }) => {
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseEnd}
       onMouseLeave={handleMouseEnd}
+      onKeyDown={handleKeyDown}
       ref={ref}
     >
       {createRange(size).map(y => (
@@ -154,7 +169,8 @@ const SelectOverlay = ({ className = '' } : { className?: string }) => {
           {createRange(size).map(x => (
             <button
               key={x}
-              className="bg-blue-300 opacity-0 hover:opacity-50"
+              tabIndex={0}
+              className="bg-blue-300 opacity-0 hover:opacity-50 focus-visible:opacity-50 focus-visible:bg-blue-300"
             />
           ))}
         </Fragment>
