@@ -1,10 +1,15 @@
+import type { CardProps } from '../Card';
 import { useEffect, useRef, useState } from 'react';
 import { useLifeSettings } from '@/hooks';
 import { Card } from '..';
 import LifeCanvas from './LifeCanvas';
 import SelectOverlay from './SelectOverlay';
 
-const LifeBoard = ({ className = '', ...props }) => {
+type LifeBoardProps = CardProps & {
+  className?: string;
+};
+
+const LifeBoard = ({ className = '', ...props } : LifeBoardProps) => {
   const { settings: { size } } = useLifeSettings();
   const [width, setWidth] = useState(0);
   const ref = useRef<HTMLDivElement>();

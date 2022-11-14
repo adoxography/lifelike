@@ -1,18 +1,19 @@
-import type { FC, ReactNode } from 'react';
+import type { HTMLAttributes, ReactNode } from 'react';
 import { Fragment, useEffect, useState, useRef } from 'react';
+import { createArray } from '@/utils';
 
-type ToggleGridProps = {
+type ToggleGridProps = HTMLAttributes<HTMLDivElement> & {
   className: string;
   values: Set<number>[];
   labels: ReactNode[];
   onChange: (_: Set<number>[]) => void;
 };
 
-const ToggleGrid: FC<ToggleGridProps> = ({ className = '', values, labels, onChange, ...props }) => {
+const ToggleGrid = ({ className = '', values, labels, onChange, ...props } : ToggleGridProps) => {
   const currentValues = useRef<Set<number>[]>();
 
   const [matrix, setMatrix] = useState<boolean[][]>(Array(2).fill(0).map(() =>
-    Array(9).fill(false)));
+    createArray(9, false)));
 
   const handleClick = (rowIdx: number, colIdx: number) => {
     setMatrix(prevMatrix =>
@@ -40,7 +41,7 @@ const ToggleGrid: FC<ToggleGridProps> = ({ className = '', values, labels, onCha
 
     const output = matrix.map(row => new Set(
       row.map((v, idx) => v ? idx : null)  // Replace trues with index
-         .filter(v => v !== null)
+        .filter(v => v !== null)
     ));
 
     const outputMatches = output.every((row, idx) => {

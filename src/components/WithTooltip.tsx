@@ -1,6 +1,11 @@
+import type { HTMLAttributes, PropsWithChildren } from 'react';
 import { useTooltip } from '@/hooks';
 
-const WithTooltip = ({ children, tooltip, ...props }) => {
+type WithTooltipProps = HTMLAttributes<HTMLDivElement> & {
+  tooltip: string;
+};
+
+const WithTooltip = ({ children, tooltip, ...props } : PropsWithChildren<WithTooltipProps>) => {
   const { show, hide } = useTooltip();
 
   const handleMouseOver = () => show(tooltip);

@@ -1,7 +1,12 @@
+import type { CardProps } from '../Card';
 import { useLife } from '@/hooks';
 import { Button, Card } from '..';
 
-const LifeActions = ({ className = '', ...props }) => {
+type LifeActionsProps = CardProps & {
+  className?: string
+};
+
+const LifeActions = ({ className = '', ...props }: LifeActionsProps) => {
   const {
     reset,
     randomize,

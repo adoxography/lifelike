@@ -1,8 +1,14 @@
-import { ChangeEvent, FocusEvent, KeyboardEvent } from 'react';
+import { ChangeEvent, FocusEvent, KeyboardEvent, InputHTMLAttributes } from 'react';
 import { useState, useEffect } from 'react';
 
-const DelayedInput = ({ onChange, type, value, ...props }) => {
-  const [internalValue, setInternalValue] = useState('');
+type DelayedInputProps = InputHTMLAttributes<HTMLInputElement> & {
+  type: string;
+  value: string | number;
+  onChange: (newValue: string | number) => void;
+};
+
+const DelayedInput = ({ onChange, type, value, ...props }: DelayedInputProps) => {
+  const [internalValue, setInternalValue] = useState<string | number>('');
 
   useEffect(() => {
     setInternalValue(value);

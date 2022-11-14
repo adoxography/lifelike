@@ -74,24 +74,18 @@ input[type="range"] {
   -webkit-appearance: none;
   width: 100%;
   background: transparent;
+  position: absolute;
+  left: -200vw;
 
   &:focus {
     outline: none;
   }
 
   &::-webkit-slider-thumb {
-    @apply appearance-none w-4 h-4 rounded bg-slate-600 -translate-y-[50%] transition-colors shadow-md;
-
-    &:hover {
-      @apply cursor-pointer bg-slate-500;
-    }
-
-    &:active {
-      @apply bg-sky-300;
-    }
+    @apply appearance-none bg-transparent text-transparent;
   }
 
   &::-webkit-slider-runnable-track {
-    @apply appearance-none bg-slate-900 border-transparent text-transparent h-px mt-2;
+    @apply appearance-none bg-transparent text-transparent;
   }
 }

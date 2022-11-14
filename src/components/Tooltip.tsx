@@ -1,6 +1,11 @@
 import { useMouseState } from '@/hooks';
 
-const Tooltip = ({ message, open }) => {
+type TooltipProps = {
+  message: string;
+  open: boolean;
+};
+
+const Tooltip = ({ message, open } : TooltipProps) => {
   const { mouseX, mouseY } = useMouseState();
 
   return (

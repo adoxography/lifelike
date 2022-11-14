@@ -8,5 +8,6 @@ export { default as Label } from './Label';
 export { default as ToggleGrid } from './ToggleGrid';
 export { default as Tooltip } from './Tooltip';
 export { default as WithTooltip } from './WithTooltip';
+export { default as Slider } from './Slider';
 
 export * from './life';

@@ -1,15 +1,16 @@
 import type { MouseEvent, TouchEvent } from 'react';
-import { Fragment, useRef } from 'react';
+import { Fragment, useEffect, useRef, useState } from 'react';
 import { useLife, useLifeSettings } from '@/hooks';
 import { createRange } from '@/utils';
 
 type CellTrack = [number, number][];
 
-const SelectOverlay = ({ className = '' }) => {
+const SelectOverlay = ({ className = '' } : { className?: string }) => {
   const ref = useRef<HTMLDivElement>();
   const isMouseDown = useRef<boolean>(false);
   const { toggleCell } = useLife();
   const { settings: { size } } = useLifeSettings();
+  const [recentlyPerformedTouch, setRecentlyPerformedTouch] = useState<boolean>(false);
   const cellTrack = useRef<CellTrack>([]);
 
   const percent = 100 / (size - 1);
@@ -27,8 +28,8 @@ const SelectOverlay = ({ className = '' }) => {
     const percentX = (x - rect.left) / rect.width;
     const percentY = (y - rect.top) / rect.height;
 
-    const cellX = Math.floor(percentX * size);
-    const cellY = Math.floor(percentY * size);
+    const cellX = Math.floor(percentX * (size - 1));
+    const cellY = Math.floor(percentY * (size - 1));
 
     if (cellX >= 0 && cellX < size && cellY >= 0 && cellY < size) {
       return [cellX, cellY];
@@ -37,18 +38,23 @@ const SelectOverlay = ({ className = '' }) => {
     return null;
   };
 
-  const handleMouseStart = ({ pageX, pageY }: MouseEvent) => {
+  const handleMouseStart = ({ clientX, clientY }: MouseEvent) => {
+    if (recentlyPerformedTouch) {
+      return;
+    }
+
     isMouseDown.current = true;
-    handleStart(pageX, pageY);
+    handleStart(clientX, clientY);
   };
 
   const handleTouchStart = ({ changedTouches }: TouchEvent) => {
-    const { pageX, pageY } = changedTouches.item(0);
-    handleStart(pageX, pageY);
+    const { clientX, clientY } = changedTouches.item(0);
+    handleStart(clientX, clientY);
   };
 
-  const handleStart = (pageX: number, pageY: number) => {
-    const cell = getCell(pageX, pageY);
+  const handleStart = (clientX: number, clientY: number) => {
+    const cell = getCell(clientX, clientY);
+    setRecentlyPerformedTouch(true);
 
     if (cell) {
       toggleCell(...cell);
@@ -56,20 +62,24 @@ const SelectOverlay = ({ className = '' }) => {
     }
   };
 
-  const handleMouseMove = ({ pageX, pageY }: MouseEvent) => {
+  const handleMouseMove = ({ clientX, clientY }: MouseEvent) => {
+    if (recentlyPerformedTouch) {
+      return;
+    }
+
     if (isMouseDown.current) {
-      handleMove(pageX, pageY);
+      handleMove(clientX, clientY);
     }
   };
 
   const handleTouchMove = ({ changedTouches }: TouchEvent) => {
-    const { pageX, pageY } = changedTouches.item(0);
-    handleMove(pageX, pageY);
+    const { clientX, clientY } = changedTouches.item(0);
+    handleMove(clientX, clientY);
   };
 
-  const handleMove = (pageX: number, pageY: number) => {
+  const handleMove = (clientX: number, clientY: number) => {
     const lastCell = cellTrack.current[cellTrack.current.length - 1];
-    const cell = getCell(pageX, pageY);
+    const cell = getCell(clientX, clientY);
 
     if (!cell) {
       return;
@@ -104,6 +114,18 @@ const SelectOverlay = ({ className = '' }) => {
       cellTrack.current.push(cell);
     });
   };
+
+  useEffect(() => {
+    if (!recentlyPerformedTouch) {
+      return;
+    }
+
+    const timeout = setTimeout(() => {
+      setRecentlyPerformedTouch(false);
+    }, 500);
+
+    return () => clearTimeout(timeout);
+  }, [recentlyPerformedTouch]);
 
   const handleMouseEnd = () => {
     isMouseDown.current = false;

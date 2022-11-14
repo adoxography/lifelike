@@ -1,11 +1,13 @@
+import { createArray } from './utils';
+
 const getNeighbourIndices = (x: number, y: number) => ([
   [x - 1, y - 1],
-  [x    , y - 1],
+  [x, y - 1],
   [x + 1, y - 1],
   [x - 1, y],
   [x + 1, y],
   [x - 1, y + 1],
-  [x    , y + 1],
+  [x, y + 1],
   [x + 1, y + 1]
 ]);
 
@@ -18,7 +20,7 @@ class State {
     this.size = size;
 
     if (values === undefined) {
-      this.values = Array(size * size).fill(0);
+      this.values = createArray(size * size, 0);
       this.isEmpty = true;
     } else {
       this.values = values;
@@ -27,9 +29,8 @@ class State {
   }
 
   static randomize(size: number) {
-    const values = Array(size * size)
-      .fill(0)
-      .map(() => Math.random() > 0.5 ? 1 : 0);
+    const values = createArray(size * size, 0)
+      .map(() => (Math.random() > 0.5 ? 1 : 0));
 
     return new State(size, values);
   }
@@ -60,8 +61,8 @@ class State {
     return count;
   }
 
-  next({ birth, survival }) {
-    const newValues = [];
+  next({ birth, survival }: { birth: Set<number>, survival: Set<number> }) {
+    const newValues: number[] = [];
 
     for (let y = 0; y < this.size; y++) {
       for (let x = 0; x < this.size; x++) {
@@ -70,16 +71,14 @@ class State {
 
         if (curr === 0) {
           if (birth.has(neighbours)) {
-            newValues.push(1)
+            newValues.push(1);
           } else {
             newValues.push(0);
           }
+        } else if (survival.has(neighbours)) {
+          newValues.push(curr + 1);
         } else {
-          if (survival.has(neighbours)) {
-            newValues.push(curr + 1)
-          } else {
-            newValues.push(0);
-          }
+          newValues.push(0);
         }
       }
     }
@@ -103,15 +102,15 @@ class State {
     const diff = newSize - this.size;
     const left = Math.floor(diff / 2);
     const right = Math.ceil(diff / 2);
-    const newValues = Array(newSize * left).fill(0);
+    const newValues = createArray(newSize * left, 0);
 
     for (let i = 0; i < this.size; i++) {
-      newValues.push(...Array(left).fill(0));
+      newValues.push(...createArray(left, 0));
       newValues.push(...this.values.slice(i * this.size, i * this.size + this.size));
-      newValues.push(...Array(right).fill(0));
+      newValues.push(...createArray(right, 0));
     }
 
-    newValues.push(...Array(newSize * right).fill(0));
+    newValues.push(...createArray(newSize * right, 0));
 
     return new State(newSize, newValues);
   }
@@ -119,7 +118,7 @@ class State {
   shrink(newSize: number) {
     const diff = this.size - newSize;
     const start = Math.floor(diff / 2);
-    const newValues = [];
+    const newValues: number[] = [];
 
     for (let i = start; i < start + newSize; i++) {
       const row = this.values.slice(

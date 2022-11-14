@@ -1,10 +1,11 @@
 import type { ChangeEvent } from 'react';
+import type { CardProps } from '../Card';
 import { useEffect, useState } from 'react';
 import { useLifeSettings } from '@/hooks';
 import presets from '@/presets';
-import { Card, ToggleGrid, Label, DelayedInput } from '..';
+import { Card, ToggleGrid, Label, DelayedInput, Slider } from '..';
 
-const LifeSettings = (props: any) => {
+const LifeSettings = (props: CardProps) => {
   const { settings, updateSettings } = useLifeSettings();
   const [toggleValues, setToggleValues] = useState<Set<number>[]>();
 
@@ -12,7 +13,7 @@ const LifeSettings = (props: any) => {
     setToggleValues([
       new Set([...settings.birth]),
       new Set([...settings.survival])
-    ])
+    ]);
   }, [settings.birth, settings.survival]);
 
   const handlePresetSelected = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -32,8 +33,8 @@ const LifeSettings = (props: any) => {
     });
   };
 
-  const handleTrailChange = (e: ChangeEvent<HTMLInputElement>) => {
-    updateSettings({ trail: Math.max(0, Math.min(1, parseFloat(e.target.value))) });
+  const handleTrailChange = (value: number) => {
+    updateSettings({ trail: Math.max(0, Math.min(1, value)) });
   };
 
   return (
@@ -61,8 +62,8 @@ const LifeSettings = (props: any) => {
         <ToggleGrid
           className="col-span-2 rounded-sm"
           labels={[
-            <Label tooltip="If a 'dead' cell has any of these numbers of neighbours, it will become alive in the next generation.">Birth</Label>,
-            <Label tooltip="If an 'alive' cell has any of these numbers of neighbours, it will survive into the next generation.">Survival</Label>
+            <Label key={0} tooltip="If a 'dead' cell has any of these numbers of neighbours, it will become alive in the next generation.">Birth</Label>,
+            <Label key={1} tooltip="If an 'alive' cell has any of these numbers of neighbours, it will survive into the next generation.">Survival</Label>
           ]}
           values={toggleValues}
           onChange={handleToggleChange}
@@ -82,17 +83,16 @@ const LifeSettings = (props: any) => {
         <Label
           className="mt-3"
           tooltip="The size of the trail following a cell"
+          id="trail-label"
         >
           Trail
         </Label>
-        <input
-          type="range"
-          min="0"
-          max="1"
-          step="0.01"
+        <Slider
+          min={0}
+          max={1}
           value={settings.trail}
           onChange={handleTrailChange}
-          className="accent-sky-300"
+          thumbProps={{ 'aria-labelledby': 'trail-label' }}
         />
       </div>
     </Card>

@@ -1,4 +1,5 @@
 import { createContext, useEffect, useState } from 'react';
+import { PropsWithChildren } from 'react';
 
 const initialState = {
   isMouseDown: false,
@@ -8,7 +9,7 @@ const initialState = {
 
 export const MouseStateContext = createContext(initialState);
 
-export const MouseStateProvider = ({ children }) => {
+export const MouseStateProvider = ({ children }: PropsWithChildren) => {
   const [isMouseDown, setIsMouseDown] = useState(false);
   const [mouseX, setMouseX] = useState(0);
   const [mouseY, setMouseY] = useState(0);
@@ -29,7 +30,7 @@ export const MouseStateProvider = ({ children }) => {
       document.removeEventListener('mousedown', handleMouseDown);
       document.removeEventListener('mouseup', handleMouseUp);
       document.removeEventListener('mousemove', handleMouseMove);
-    }
+    };
   }, []);
 
   return (

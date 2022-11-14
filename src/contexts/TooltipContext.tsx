@@ -1,5 +1,7 @@
+import type { PropsWithChildren } from 'react';
 import { createContext, useState } from 'react';
 import { Tooltip } from '@/components';
+import { emptyFunction } from '@/utils';
 
 type TooltipState = {
   show: (_?: string) => void;
@@ -7,14 +9,14 @@ type TooltipState = {
 };
 
 const initialValue = {
-  show: () => {},
-  hide: () => {}
+  show: emptyFunction,
+  hide: emptyFunction
 };
 
 export const TooltipContext = createContext<TooltipState>(initialValue);
 
-export const TooltipProvider = ({ children }) => {
-  const [message, setMessage] = useState(null);
+export const TooltipProvider = ({ children }: PropsWithChildren) => {
+  const [message, setMessage] = useState<string | null>(null);
 
   const show = (message?: string) => {
     if (message !== null && message !== undefined) {

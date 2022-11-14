@@ -1,9 +1,11 @@
+import type { PropsWithChildren } from 'react';
 import { createContext, useReducer } from 'react';
 import type { LifeConfiguration } from '@/types';
+import { emptyFunction } from '@/utils';
 
 enum ActionKind {
   Update = 'UPDATE'
-};
+}
 
 export type LifeSettings = LifeConfiguration & {
   size: number;
@@ -29,17 +31,17 @@ const initialState = {
 
 export const LifeSettingsContext = createContext<LifeSettingsContextValues>({
   settings: initialState,
-  updateSettings: () => {}
+  updateSettings: emptyFunction
 });
 
-export const LifeSettingsProvider = ({ children }) => {
+export const LifeSettingsProvider = ({ children } : PropsWithChildren) => {
   const reducer = (state: LifeSettings, action: Action) => {
     switch (action.type) {
-      case ActionKind.Update:
-        return {
-          ...state,
-          ...action.payload
-        };
+    case ActionKind.Update:
+      return {
+        ...state,
+        ...action.payload
+      };
     }
   };
 

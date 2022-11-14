@@ -23,7 +23,7 @@ const Footer = () => {
         >
           <div className="absolute left-0 top-0 w-full h-full bg-sky-300 mix-blend-darken opacity-0 group-hover:opacity-100 transition-opacity" />
           <img
-            src={GithubIcon}
+            src={GithubIcon as string}
             width="24px"
             height="24px"
             alt="GitHub"

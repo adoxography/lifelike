@@ -12,7 +12,7 @@ const presets: Array<Preset> = [
     label: 'Seeds',
     settings: {
       birth: new Set([2]),
-      survival: new Set([])
+      survival: new Set<number>([])
     }
   },
   {

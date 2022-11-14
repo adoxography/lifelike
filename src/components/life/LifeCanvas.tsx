@@ -10,122 +10,122 @@ const LifeCanvas = () => {
   const canvas = useRef<HTMLCanvasElement>();
   const [context, setContext] = useState<CanvasRenderingContext2D>(null);
   const { settings: { size, trail } } = useLifeSettings();
-  const { state, isSimulating, getValue } = useLife();
+  const { isSimulating, getValue } = useLife();
   const tailwind = useTailwind();
 
   const getPath = (x: number, y: number, size: number, idx: number): [number, number][] => {
     switch (idx) {
-      case 1:
-        return [
-          createPoint(x, y + size / 2),
-          createPoint(x + size / 2, y + size),
-          createPoint(x, y + size)
-        ];
-      case 2:
-        return [
-          createPoint(x + size, y + size / 2),
-          createPoint(x + size, y + size),
-          createPoint(x + size / 2, y + size)
-        ];
-      case 3:
-        return [
-          createPoint(x,        y + size / 2),
-          createPoint(x + size, y + size / 2),
-          createPoint(x + size, y + size),
-          createPoint(x,        y + size)
-        ];
-      case 4:
-        return [
-          createPoint(x + size / 2, y),
-          createPoint(x + size, y),
-          createPoint(x + size, y + size / 2)
-        ];
-      case 5:
-        return [
-          createPoint(x + size / 2, y),
-          createPoint(x + size,     y),
-          createPoint(x + size,     y + size / 2),
-          createPoint(x + size / 2, y + size),
-          createPoint(x,            y + size),
-          createPoint(x,            y + size / 2)
-        ];
-      case 6:
-        return [
-          createPoint(x + size / 2, y),
-          createPoint(x + size,     y),
-          createPoint(x + size,     y + size),
-          createPoint(x + size / 2, y + size),
-        ];
-      case 7:
-        return [
-          createPoint(x + size / 2, y),
-          createPoint(x + size,     y),
-          createPoint(x + size,     y + size),
-          createPoint(x,            y + size),
-          createPoint(x,            y + size / 2)
-        ];
-      case 8:
-        return [
-          createPoint(x, y),
-          createPoint(x + size / 2, y),
-          createPoint(x, y + size / 2)
-        ];
-      case 9:
-        return [
-          createPoint(x,            y),
-          createPoint(x + size / 2, y),
-          createPoint(x + size / 2, y + size),
-          createPoint(x,            y + size)
-        ];
-      case 10:
-        return [
-          createPoint(x,            y),
-          createPoint(x + size / 2, y),
-          createPoint(x + size,     y + size / 2),
-          createPoint(x + size,     y + size),
-          createPoint(x + size / 2, y + size),
-          createPoint(x,            y + size / 2)
-        ];
-      case 11:
-        return [
-          createPoint(x,            y),
-          createPoint(x + size / 2, y),
-          createPoint(x + size,     y + size / 2),
-          createPoint(x + size,     y + size),
-          createPoint(x,            y + size)
-        ];
-      case 12:
-        return [
-          createPoint(x,        y),
-          createPoint(x + size, y),
-          createPoint(x + size, y + size / 2),
-          createPoint(x,        y + size / 2)
-        ];
-      case 13:
-        return [
-          createPoint(x,            y),
-          createPoint(x + size,     y),
-          createPoint(x + size,     y + size / 2),
-          createPoint(x + size / 2, y + size),
-          createPoint(x,            y + size)
-        ];
-      case 14:
-        return [
-          createPoint(x,            y),
-          createPoint(x + size,     y),
-          createPoint(x + size,     y + size),
-          createPoint(x + size / 2, y + size),
-          createPoint(x,            y + size / 2)
-        ];
-      case 15:
-        return [
-          createPoint(x       , y       ),
-          createPoint(x       , y + size),
-          createPoint(x + size, y + size),
-          createPoint(x + size, y       )
-        ];
-      default:
-        return [];
+    case 1:
+      return [
+        createPoint(x, y + size / 2),
+        createPoint(x + size / 2, y + size),
+        createPoint(x, y + size)
+      ];
+    case 2:
+      return [
+        createPoint(x + size, y + size / 2),
+        createPoint(x + size, y + size),
+        createPoint(x + size / 2, y + size)
+      ];
+    case 3:
+      return [
+        createPoint(x,        y + size / 2),
+        createPoint(x + size, y + size / 2),
+        createPoint(x + size, y + size),
+        createPoint(x,        y + size)
+      ];
+    case 4:
+      return [
+        createPoint(x + size / 2, y),
+        createPoint(x + size, y),
+        createPoint(x + size, y + size / 2)
+      ];
+    case 5:
+      return [
+        createPoint(x + size / 2, y),
+        createPoint(x + size,     y),
+        createPoint(x + size,     y + size / 2),
+        createPoint(x + size / 2, y + size),
+        createPoint(x,            y + size),
+        createPoint(x,            y + size / 2)
+      ];
+    case 6:
+      return [
+        createPoint(x + size / 2, y),
+        createPoint(x + size,     y),
+        createPoint(x + size,     y + size),
+        createPoint(x + size / 2, y + size),
+      ];
+    case 7:
+      return [
+        createPoint(x + size / 2, y),
+        createPoint(x + size,     y),
+        createPoint(x + size,     y + size),
+        createPoint(x,            y + size),
+        createPoint(x,            y + size / 2)
+      ];
+    case 8:
+      return [
+        createPoint(x, y),
+        createPoint(x + size / 2, y),
+        createPoint(x, y + size / 2)
+      ];
+    case 9:
+      return [
+        createPoint(x,            y),
+        createPoint(x + size / 2, y),
+        createPoint(x + size / 2, y + size),
+        createPoint(x,            y + size)
+      ];
+    case 10:
+      return [
+        createPoint(x,            y),
+        createPoint(x + size / 2, y),
+        createPoint(x + size,     y + size / 2),
+        createPoint(x + size,     y + size),
+        createPoint(x + size / 2, y + size),
+        createPoint(x,            y + size / 2)
+      ];
+    case 11:
+      return [
+        createPoint(x,            y),
+        createPoint(x + size / 2, y),
+        createPoint(x + size,     y + size / 2),
+        createPoint(x + size,     y + size),
+        createPoint(x,            y + size)
+      ];
+    case 12:
+      return [
+        createPoint(x,        y),
+        createPoint(x + size, y),
+        createPoint(x + size, y + size / 2),
+        createPoint(x,        y + size / 2)
+      ];
+    case 13:
+      return [
+        createPoint(x,            y),
+        createPoint(x + size,     y),
+        createPoint(x + size,     y + size / 2),
+        createPoint(x + size / 2, y + size),
+        createPoint(x,            y + size)
+      ];
+    case 14:
+      return [
+        createPoint(x,            y),
+        createPoint(x + size,     y),
+        createPoint(x + size,     y + size),
+        createPoint(x + size / 2, y + size),
+        createPoint(x,            y + size / 2)
+      ];
+    case 15:
+      return [
+        createPoint(x       , y       ),
+        createPoint(x       , y + size),
+        createPoint(x + size, y + size),
+        createPoint(x + size, y       )
+      ];
+    default:
+      return [];
     }
   };
 
@@ -158,11 +158,12 @@ const LifeCanvas = () => {
     let trailHex = 'ff';
 
     if (isSimulating) {
-      trailHex = Math.floor(255 * (1 - trail)).toString(16).padStart(2, '0');
+      trailHex = Math.floor(255 * (1 - trail * 0.75)).toString(16).padStart(2, '0');
     }
 
     if (typeof colors === 'object') {
-      bgColor = `${colors.slate?.[700]}${trailHex}`;
+      const baseColor = colors.slate?.[700] as string;
+      bgColor = `${baseColor}${trailHex}`;
     }
 
     return bgColor;
@@ -173,7 +174,7 @@ const LifeCanvas = () => {
     let fgColor = '#ffffff';
 
     if (typeof colors === 'object') {
-      fgColor = colors.slate?.[300];
+      fgColor = colors.slate?.[300] as string;
     }
 
     return fgColor;
@@ -183,7 +184,7 @@ const LifeCanvas = () => {
     const context = canvas.current?.getContext('2d');
     context.translate(0.5, 0.5);
     setContext(context);
-    canvas.current?.setAttribute('height', canvas.current?.width + "");
+    canvas.current?.setAttribute('height', `${canvas.current?.width}`);
   }, []);
 
   const update = useCallback(() => {
