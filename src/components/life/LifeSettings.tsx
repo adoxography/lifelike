@@ -33,9 +33,9 @@ const LifeSettings = (props: CardProps) => {
     });
   }, [updateSettings]);
 
-  const handleTrailChange = (value: number) => {
+  const handleTrailChange = useCallback((value: number) => {
     updateSettings({ trail: Math.max(0, Math.min(1, value)) });
-  };
+  }, [updateSettings]);
 
   return (
     <Card {...props}>
