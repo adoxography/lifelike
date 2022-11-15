@@ -80,7 +80,8 @@ const ToggleGrid = ({ className = '', values, labels, onChange, ...props } : Tog
                     onChange={() => handleClick(rowIdx, idx)}
                     className={`${insetTop ? 'button-inset-top' : ''} ${insetLeft ? 'button-inset-left' : ''} ${insetCorner ? 'button-inset-corner' : ''}`}
                   />
-                  <label htmlFor={key} className="select-none">
+                  <label htmlFor={key} className="select-none relative">
+                    <span className="absolute left-[50%] top-[50%] -translate-x-[50%] -translate-y-[50%] w-[50%] h-[50%] bg-slate-900/40 rounded-full blur" />
                     <div>{idx}</div>
                   </label>
                 </Fragment>
