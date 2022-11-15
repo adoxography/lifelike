@@ -48,13 +48,13 @@ const SelectOverlay = ({ className = '' } : { className?: string }) => {
   };
 
   const handleTouchStart = ({ changedTouches }: TouchEvent) => {
+    setRecentlyPerformedTouch(true);
     const { clientX, clientY } = changedTouches.item(0);
     handleStart(clientX, clientY);
   };
 
   const handleStart = (clientX: number, clientY: number) => {
     const cell = getCell(clientX, clientY);
-    setRecentlyPerformedTouch(true);
 
     if (cell) {
       toggleCell(...cell);
