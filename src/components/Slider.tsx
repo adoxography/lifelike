@@ -76,9 +76,7 @@ const Slider = ({ min = 0, max = 100, value, onChange, thumbProps = {} }: Slider
     }
   }, [min, max, value, changeValue]);
 
-  const pos = containerRef.current
-    ? (value - min) / max * containerRef.current.offsetWidth
-    : 0;
+  const fillPercent = (value - min) / (max - min) * 100;
 
   useEffect(() => {
     const handleMouseUp = () => {
@@ -113,7 +111,7 @@ const Slider = ({ min = 0, max = 100, value, onChange, thumbProps = {} }: Slider
         <div className="relative h-px bg-slate-900 w-full">
           <div
             className="absolute left-0 bg-sky-500/60 h-full duration-300"
-            style={{ width: `calc(${pos}px - 0.5rem)`, transitionProperty: isMouseDown ? 'none' : 'all' }}
+            style={{ width: `calc(${fillPercent}% - 0.5rem)`, transitionProperty: isMouseDown ? 'none' : 'all' }}
           />
         </div>
       </div>
@@ -138,7 +136,7 @@ const Slider = ({ min = 0, max = 100, value, onChange, thumbProps = {} }: Slider
         onTouchStart={handleMouseDown}
         onDrag={handleChange}
         onKeyDown={handleKeyDown}
-        style={{ left: `${pos}px`, transitionProperty: isMouseDown ? 'box-shadow, background-color' : 'all' }}
+        style={{ left:  `${fillPercent}%`, transitionProperty: isMouseDown ? 'box-shadow, background-color' : 'all' }}
         {...thumbProps}
       />
     </div>
