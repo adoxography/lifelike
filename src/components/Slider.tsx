@@ -78,11 +78,11 @@ const Slider = ({ min = 0, max = 100, value, onChange, thumbProps = {} }: Slider
 
   const fillPercent = (value - min) / (max - min) * 100;
 
-  useEffect(() => {
-    const handleMouseUp = () => {
-      setIsMouseDown(false);
-    };
+  const handleMouseUp = useCallback(() => {
+    setIsMouseDown(false);
+  }, []);
 
+  useEffect(() => {
     document.addEventListener('mouseup', handleMouseUp);
     document.addEventListener('touchend', handleMouseUp);
     document.addEventListener('mousemove', handleMouseMove);
@@ -94,7 +94,7 @@ const Slider = ({ min = 0, max = 100, value, onChange, thumbProps = {} }: Slider
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('touchmove', handleTouchMove);
     };
-  }, [handleMouseMove, handleTouchMove]);
+  }, [handleMouseMove, handleTouchMove, handleMouseUp]);
 
   return (
     <div
@@ -133,6 +133,7 @@ const Slider = ({ min = 0, max = 100, value, onChange, thumbProps = {} }: Slider
           focus-visible:outline-none focus-visible:ring-1 ring-sky-300/50
         "
         onMouseDown={handleMouseDown}
+        onMouseUp={handleMouseUp}
         onTouchStart={handleMouseDown}
         onDrag={handleChange}
         onKeyDown={handleKeyDown}
