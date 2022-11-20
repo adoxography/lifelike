@@ -118,7 +118,7 @@ const SelectOverlay = ({ className = '' } : { className?: string }) => {
   const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
     const { activeElement } = document;
 
-    if (e.key === 'Enter' && activeElement.tagName === 'BUTTON') {
+    if ((e.key === 'Enter' || e.key === ' ') && activeElement.tagName === 'BUTTON') {
       const rect = activeElement.getBoundingClientRect();
       const x = rect.left + rect.width / 2;
       const y = rect.top + rect.height / 2;
