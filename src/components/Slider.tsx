@@ -43,7 +43,11 @@ const Slider = ({ min = 0, max = 100, value, onChange, thumbProps = {} }: Slider
     setIsMouseDown(false);
   }, []);
 
-  const handleChange = useCallback((e: MouseEvent | ReactMouseEvent<HTMLDivElement> | DragEvent<HTMLDivElement>) => {
+  const handleTrackClicked = useCallback((e: ReactMouseEvent<HTMLDivElement>) => {
+    doChange(e.clientX);
+  }, [doChange]);
+
+  const handleChange = useCallback((e: MouseEvent | DragEvent<HTMLDivElement>) => {
     if (e.buttons) {
       doChange(e.clientX);
     } else {
@@ -109,7 +113,7 @@ const Slider = ({ min = 0, max = 100, value, onChange, thumbProps = {} }: Slider
         role="button"
         tabIndex={-1}
         className="flex items-center w-full h-4 cursor-pointer"
-        onClick={handleChange}
+        onClick={handleTrackClicked}
         onKeyDown={emptyFunction}
       >
         <div className="relative h-px bg-slate-900 w-full">
