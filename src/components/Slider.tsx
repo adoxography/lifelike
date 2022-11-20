@@ -112,6 +112,7 @@ const Slider = ({ min = 0, max = 100, value, onChange, thumbProps = {} }: Slider
     >
       <div
         role="button"
+        aria-hidden
         tabIndex={-1}
         className="flex items-center w-full h-4 cursor-pointer"
         onClick={handleTrackClicked}
