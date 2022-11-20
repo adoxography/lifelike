@@ -60,6 +60,7 @@ const Slider = ({ min = 0, max = 100, value, onChange, thumbProps = {} }: Slider
       e.preventDefault();
     }
 
+    thumbRef.current?.focus();
     setIsMouseDown(true);
   }, []);
 
