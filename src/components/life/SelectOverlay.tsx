@@ -1,17 +1,19 @@
 import type { KeyboardEvent, MouseEvent, TouchEvent } from 'react';
-import { Fragment, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useLife, useLifeSettings } from '@/hooks';
 import { createRange } from '@/utils';
 
-type CellTrack = [number, number][];
+type Position = [number, number];
 
 const SelectOverlay = ({ className = '' } : { className?: string }) => {
-  const ref = useRef<HTMLDivElement>();
+  const gridRef = useRef<HTMLDivElement>();
+  const buttonsRef = useRef<HTMLButtonElement[]>([]);
   const isMouseDown = useRef<boolean>(false);
   const { toggleCell } = useLife();
   const { settings: { size } } = useLifeSettings();
   const [recentlyPerformedTouch, setRecentlyPerformedTouch] = useState<boolean>(false);
-  const cellTrack = useRef<CellTrack>([]);
+  const [current, setCurrent] = useState<Position | null>(null);
+  const cellTrack = useRef<Position[]>([]);
 
   const percent = 100 / (size - 1);
   const halfPercent = percent / 2;
@@ -23,8 +25,8 @@ const SelectOverlay = ({ className = '' } : { className?: string }) => {
     touchAction: 'none'
   };
 
-  const getCell = (x: number, y: number): [number, number] => {
-    const rect = ref.current.getBoundingClientRect();
+  const getCell = (x: number, y: number): Position => {
+    const rect = gridRef.current.getBoundingClientRect();
     const percentX = (x - rect.left) / rect.width;
     const percentY = (y - rect.top) / rect.height;
 
@@ -55,6 +57,7 @@ const SelectOverlay = ({ className = '' } : { className?: string }) => {
 
   const handleStart = (clientX: number, clientY: number) => {
     const cell = getCell(clientX, clientY);
+    focusButton(cell);
 
     if (cell) {
       toggleCell(...cell);
@@ -85,7 +88,7 @@ const SelectOverlay = ({ className = '' } : { className?: string }) => {
       return;
     }
 
-    const fillers: CellTrack = [];
+    const fillers: Position[] = [];
     const deltaX = cell[0] - lastCell[0];
     const deltaY = cell[1] - lastCell[1];
     const dist = Math.max(Math.abs(deltaX), Math.abs(deltaY));
@@ -125,6 +128,37 @@ const SelectOverlay = ({ className = '' } : { className?: string }) => {
 
       handleStart(x, y);
     }
+
+    const moveCurrent = (shiftX: number, shiftY: number) => {
+      const next: Position = [0, 0];
+
+      if (current) {
+        next[0] = (current[0] + shiftX + size) % size;
+        next[1] = (current[1] + shiftY + size) % size;
+      }
+
+      focusButton(next);
+
+      if (e.shiftKey) {
+        toggleCell(...next);
+      }
+    };
+
+    if (e.key === 'ArrowLeft') {
+      moveCurrent(-1, 0);
+    }
+
+    if (e.key === 'ArrowRight') {
+      moveCurrent(1, 0);
+    }
+
+    if (e.key === 'ArrowUp') {
+      moveCurrent(0, -1);
+    }
+
+    if (e.key === 'ArrowDown') {
+      moveCurrent(0, 1);
+    }
   };
 
   useEffect(() => {
@@ -139,7 +173,22 @@ const SelectOverlay = ({ className = '' } : { className?: string }) => {
     return () => clearTimeout(timeout);
   }, [recentlyPerformedTouch]);
 
+  useEffect(() => {
+    buttonsRef.current = buttonsRef.current.slice(size * size);
+  }, [size]);
+
+  const focusButton = useCallback((pos: Position) => {
+    const [x, y] = pos;
+    buttonsRef.current[y * size + x].focus();
+    setCurrent(pos);
+  }, [size]);
+
   const handleMouseEnd = () => {
+    const lastPosition = cellTrack.current[cellTrack.current.length - 1];
+    if (lastPosition) {
+      focusButton(lastPosition);
+    }
+
     isMouseDown.current = false;
     cellTrack.current = [];
   };
@@ -151,6 +200,7 @@ const SelectOverlay = ({ className = '' } : { className?: string }) => {
   return (
     <div
       role="grid"
+      aria-label="Grid toggles"
       tabIndex={0}
       className={`grid ${className}`}
       style={style}
@@ -162,18 +212,21 @@ const SelectOverlay = ({ className = '' } : { className?: string }) => {
       onMouseUp={handleMouseEnd}
       onMouseLeave={handleMouseEnd}
       onKeyDown={handleKeyDown}
-      ref={ref}
+      ref={gridRef}
     >
       {createRange(size).map(y => (
-        <Fragment key={y}>
+        <div role="row" key={y} className="contents">
           {createRange(size).map(x => (
             <button
               key={x}
-              tabIndex={0}
+              ref={el => buttonsRef.current[y * size + x] = el}
+              role="gridcell"
+              aria-label={`(${x}, ${y})`}
+              tabIndex={-1}
               className="bg-blue-300 opacity-0 hover:opacity-50 focus-visible:opacity-50 focus-visible:bg-blue-300"
             />
           ))}
-        </Fragment>
+        </div>
       ))}
     </div>
   );
