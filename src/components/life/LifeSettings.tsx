@@ -41,6 +41,7 @@ const LifeSettings = (props: CardProps) => {
     <Card {...props}>
       <div className="grid grid-cols-[max-content_1fr] gap-x-4 items-center">
         <Label
+          id="preset-label"
           className="mb-3"
           tooltip="Select a well-known setting"
         >
@@ -49,6 +50,7 @@ const LifeSettings = (props: CardProps) => {
         <div className="w-full relative mb-3">
           <select
             className="border-0 rounded-sm w-full bg-transparent focus:ring-sky-300/50"
+            aria-labelledby="preset-label"
             onChange={handlePresetSelected}
           >
             {presets.map((preset) => (
@@ -69,6 +71,7 @@ const LifeSettings = (props: CardProps) => {
           onChange={handleToggleChange}
         />
         <Label
+          id="size-label"
           className="mt-3"
           tooltip="The width and height of the grid"
         >
@@ -76,6 +79,7 @@ const LifeSettings = (props: CardProps) => {
         </Label>
         <DelayedInput
           type="number"
+          aria-labelledby="size-label"
           onChange={handleSizeChange}
           value={settings.size}
           className="bg-gradient-to-br from-slate-900 to-[#1a2234] rounded-sm border-0 mt-3 focus:ring-sky-300/50"
@@ -88,6 +92,7 @@ const LifeSettings = (props: CardProps) => {
           Trail
         </Label>
         <Slider
+          aria-labelledby="trail-label"
           min={0}
           max={1}
           value={settings.trail}
