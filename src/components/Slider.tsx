@@ -39,9 +39,17 @@ const Slider = ({ min = 0, max = 100, value, onChange, thumbProps = {} }: Slider
     changeValue(newValue);
   }, [min, max, changeValue]);
   
+  const handleMouseUp = useCallback(() => {
+    setIsMouseDown(false);
+  }, []);
+
   const handleChange = useCallback((e: MouseEvent | ReactMouseEvent<HTMLDivElement> | DragEvent<HTMLDivElement>) => {
-    doChange(e.clientX);
-  }, [doChange]);
+    if (e.buttons) {
+      doChange(e.clientX);
+    } else {
+      handleMouseUp();
+    }
+  }, [doChange, handleMouseUp]);
 
   const handleMouseDown = useCallback((e: ReactMouseEvent<HTMLDivElement> | ReactTouchEvent<HTMLDivElement>) => {
     if (e.type === 'mousedown') {
@@ -77,10 +85,6 @@ const Slider = ({ min = 0, max = 100, value, onChange, thumbProps = {} }: Slider
   }, [min, max, value, changeValue]);
 
   const fillPercent = (value - min) / (max - min) * 100;
-
-  const handleMouseUp = useCallback(() => {
-    setIsMouseDown(false);
-  }, []);
 
   useEffect(() => {
     document.addEventListener('mouseup', handleMouseUp);
@@ -133,7 +137,6 @@ const Slider = ({ min = 0, max = 100, value, onChange, thumbProps = {} }: Slider
           focus-visible:outline-none focus-visible:ring-1 ring-sky-300/50
         "
         onMouseDown={handleMouseDown}
-        onMouseUp={handleMouseUp}
         onTouchStart={handleMouseDown}
         onDrag={handleChange}
         onKeyDown={handleKeyDown}
