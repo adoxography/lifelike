@@ -1,13 +1,29 @@
 import type { ChangeEvent } from 'react';
 import type { CardProps } from '../Card';
-import { useCallback, useEffect, useState } from 'react';
+import type { LifeConfiguration } from '@/types';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLifeSettings } from '@/hooks';
+import { setsEqual } from '@/utils';
 import presets from '@/presets';
 import { Card, ToggleGrid, Label, DelayedInput, Slider } from '..';
+
+const presetMatchesSetting = (preset: LifeConfiguration, setting: LifeConfiguration): boolean => {
+  return setsEqual(preset.birth, setting.birth) && setsEqual(preset.survival, setting.survival);
+};
 
 const LifeSettings = (props: CardProps) => {
   const { settings, updateSettings } = useLifeSettings();
   const [toggleValues, setToggleValues] = useState<Set<number>[]>();
+
+  const selectedPreset = useMemo(() => {
+    const selected = presets.find(preset => presetMatchesSetting(preset.settings, settings));
+
+    if (selected) {
+      return selected.label;
+    }
+
+    return 'Custom';
+  }, [settings]);
 
   useEffect(() => {
     setToggleValues([
@@ -51,8 +67,12 @@ const LifeSettings = (props: CardProps) => {
           <select
             className="border-0 rounded-sm w-full bg-transparent focus:ring-sky-300/50"
             aria-labelledby="preset-label"
+            value={selectedPreset}
             onChange={handlePresetSelected}
           >
+            {selectedPreset === 'Custom' && (<option className="bg-slate-900">
+              Custom
+            </option>)}
             {presets.map((preset) => (
               <option key={preset.label} className="bg-slate-900">
                 {preset.label}
